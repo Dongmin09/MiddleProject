@@ -1,0 +1,44 @@
+package kr.or.funding.pyHis.controller;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import kr.or.funding.pyHis.service.IPyHisService;
+import kr.or.funding.pyHis.service.PyHisServiceImpl;
+import kr.or.funding.pyHis.vo.PyHisVO;
+
+@WebServlet("/pyhis.do")
+public class PyHisInsertController extends HttpServlet{
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		super.doGet(req, resp);
+	}
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String 	ptNum = req.getParameter("ptNum");
+		String	mbsNum =req.getParameter("mbsNum");
+		String	pyAm =req.getParameter("pyAm");
+		String	commi =req.getParameter("commi");
+		String	pyQty =req.getParameter("pyQty");
+		
+		PyHisVO pv = new PyHisVO();
+		
+		pv.setPtNum(Integer.parseInt(ptNum));
+		pv.setMbsNum(Integer.parseInt(mbsNum));
+		pv.setPyAm(Integer.parseInt(pyAm));
+		pv.setCommi(Integer.parseInt(commi));
+		pv.setPyQty(Integer.parseInt(pyQty));
+		
+		IPyHisService pyHisSer = PyHisServiceImpl.getInstance();
+		int phv = pyHisSer.insertPyHis(pv);
+		
+		resp.sendRedirect("/Funding/ptimfor/ptImforDetail.do?ptImforNum="+ptNum);
+	}
+}
